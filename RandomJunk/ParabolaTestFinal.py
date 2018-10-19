@@ -41,8 +41,8 @@ class ParabolaTest:
         self.height = 650
         self.screen = pygame.display.set_mode( (self.width, self.height) , RESIZABLE)
         pygame.display.set_caption('Parabola Sandbox')
-
-        
+        self.parabolaCounter = 1
+        self.drawBoundingBox = False
         self.BIT_CENTER_ON_Y = 1
         self.BIT_CENTER_ON_X = 2
         self.BIT_WIDE_BG = 4
@@ -61,6 +61,9 @@ class ParabolaTest:
         self.mousePositionBackColor = Colors.TEXTGRAY
         self.axesColor = Colors.BLACK
         self.parabolaColor = Colors.BLACK
+        self.parabolaStepMax = 200
+        self.parabolaStepMin = 2
+        self.parabolaStepDelta = 1
         self.point1Color = Colors.DARKGREEN
         self.point2Color = Colors.DARKBLUE
         self.point3Color = Colors.DARKRED
@@ -132,6 +135,8 @@ class ParabolaTest:
                 # Press DOWN ARROW to decrease distance between grid lines
                 elif event.key == K_DOWN:
                     self.decreaseTickAmount()
+                elif event.key == K_b:
+                    self.drawBoundingBox = not self.drawBoundingBox
                 # Press T to show tick marks on axes
                 elif event.key == K_t:
                     self.toggleTicks()
@@ -140,10 +145,14 @@ class ParabolaTest:
                     self.toggleStatic()
                 elif event.key == K_f:
                     self.toggleFPS()
-                elif event.key == K_e:
-                    self.nextErrorMode()
+                #elif event.key == K_e:
+                #    self.nextErrorMode()
                 elif event.key == K_s:
                     self.showSteps = not self.showSteps
+                elif event.key == K_c:
+                    self.parabolaCounter += 1
+                    if (self.parabolaCounter > 3):
+                        self.parabolaCounter = 1
         #====================
         # MOUSE EVENTS
         #====================
@@ -298,16 +307,16 @@ class ParabolaTest:
         self.mouse_position = event.pos
     def decreaseStepAmount(self):
         
-        self.parabolaStepCount -= 1
-        if (self.parabolaStepCount < 2):
-            self.parabolaStepCount = 2
+        self.parabolaStepCount -= self.parabolaStepDelta
+        if (self.parabolaStepCount < self.parabolaStepMin):
+            self.parabolaStepCount = self.parabolaStepMin
         if self.parabola != None:
             self.parabola.change_steps(self.parabolaStepCount)
         self.reCalculate = True
     def increaseStepAmount(self):
-        self.parabolaStepCount += 1
-        if (self.parabolaStepCount > 200):
-            self.parabolaStepCount = 200
+        self.parabolaStepCount += self.parabolaStepDelta
+        if (self.parabolaStepCount > self.parabolaStepMax):
+            self.parabolaStepCount = self.parabolaStepMax
         if self.parabola != None:
             self.parabola.change_steps(self.parabolaStepCount)
         self.reCalculate = True
@@ -387,10 +396,22 @@ class ParabolaTest:
     def drawParabola(self):
         if self.parabola == None:
             return
+        p = self.parabola
+        if (self.parabolaCounter > 1):
+            p2 = Parabola(p.known_points[0].astuple(), (p.known_points[1].x, p.known_points[1].y - 75), p.known_points[2].astuple(), p.steps)
+            rect = pygame.draw.lines(self.screen, self.parabolaColor, False, p2.get_list(), 1)
+            if self.drawBoundingBox:
+                pygame.draw.rect(self.screen, Colors.RED, rect, 1)
+        if (self.parabolaCounter > 2):
+            p2 = Parabola(p.known_points[0].astuple(), (p.known_points[1].x, p.known_points[1].y + 75), p.known_points[2].astuple(), p.steps)
+            rect = pygame.draw.lines(self.screen, self.parabolaColor, False, p2.get_list(), 1)
+            if self.drawBoundingBox:
+                pygame.draw.rect(self.screen, Colors.RED, rect, 1)
             
         #rect = pygame.draw.aalines(self.screen, self.parabolaColor, False, parabola.get_list(), 0)
         rect = pygame.draw.lines(self.screen, self.parabolaColor, False, self.parabola.get_list(), 1)
-        pygame.draw.rect(self.screen, Colors.RED, rect, 1)
+        if self.drawBoundingBox:
+            pygame.draw.rect(self.screen, Colors.RED, rect, 1)
         
         return
         
