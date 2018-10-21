@@ -1,7 +1,7 @@
 import pygame
 import pygame.event
 from pygame.locals import *
-from Classes.ParabolaClass import Parabola
+from Classes.Parabola import Parabola
 from Classes.Point import Point
 
 class Colors:
