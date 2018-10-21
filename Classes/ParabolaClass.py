@@ -1,56 +1,8 @@
 import math
 import numpy as np
 import numpy.linalg as LA
+from Classes.Point import Point
 
-class Point:
-    @classmethod
-    def copy(cls, pt):
-        return Point(pt.x, pt.y)
-        
-    @classmethod
-    def fromtuple(cls, tup):
-        return cls(tup[0], tup[1])
-
-    def astuple(self):
-        return (self.x, self.y)
-
-    def hasPoints(self, listOfPoints):
-        if len(self.known_points) == len(listOfPoints):
-            
-            if (self.known_points[0] == listOfPoints[0] or self.known_points[0] == listOfPoints[1] or self.known_points[0] == listOfPoints[2]) and \
-               (self.known_points[1] == listOfPoints[0] or self.known_points[1] == listOfPoints[1] or self.known_points[1] == listOfPoints[2]) and \
-               (self.known_points[2] == listOfPoints[0] or self.known_points[2] == listOfPoints[1] or self.known_points[2] == listOfPoints[2]):
-               return True
-        return False
-    # do not use this to translate to origin unless you intend to rotate around THIS point.
-    def translate(self, lst):
-        old = Point.copy(self)
-        self.x += lst[0]
-        self.y += lst[1]
-        if __name__ == "__main__":
-            print('{0} -> {1} :: (Translate[{2},{3}])'.format(old, self, lst[0], lst[1]))
-
-    def rotate(self, theta):        
-        rad = math.radians(theta)
-        s = math.sin(rad)
-        c = math.cos(rad)
-        x = self.x
-        y = self.y
-        self.x = x * c - y * s
-        self.y = x * s + y * c
-        if __name__ == "__main__":
-            print('{0} -> {1} :: (Rotate {2})'.format(Point(x,y), self, theta))
-        
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-            
-    def __repr__(self):
-        return "<Point( x:{0:7.2f}, y:{1:7.2f})>".format(self.x,self.y)
-        
-    def __str__(self):
-        return "({0:7.2f}, {1:7.2f})".format(self.x, self.y)
-        
 class Parabola:
     def translate(self, lst):
         for c in self.known_points:

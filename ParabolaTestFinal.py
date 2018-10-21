@@ -1,7 +1,8 @@
 import pygame
 import pygame.event
 from pygame.locals import *
-from ParabolaClass import *
+from Classes.ParabolaClass import Parabola
+from Classes.Point import Point
 
 class Colors:
     BLACK =     (  0,  0,  0)
