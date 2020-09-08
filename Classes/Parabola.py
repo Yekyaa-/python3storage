@@ -1,61 +1,8 @@
 import math
-
 import numpy as np
 import numpy.linalg as LA
 
-
-class Point:
-    @classmethod
-    def copy(cls, pt):
-        return Point(pt.x, pt.y)
-
-    @classmethod
-    def fromtuple(cls, tup):
-        return cls(tup[0], tup[1])
-
-    def astuple(self):
-        return (self.x, self.y)
-
-    def hasPoints(self, listOfPoints):
-        if len(self.known_points) == len(listOfPoints):
-
-            if (self.known_points[0] == listOfPoints[0] or self.known_points[0] == listOfPoints[1] or self.known_points[
-                0] == listOfPoints[2]) and \
-                    (self.known_points[1] == listOfPoints[0] or self.known_points[1] == listOfPoints[1] or
-                     self.known_points[1] == listOfPoints[2]) and \
-                    (self.known_points[2] == listOfPoints[0] or self.known_points[2] == listOfPoints[1] or
-                     self.known_points[2] == listOfPoints[2]):
-                return True
-        return False
-
-    # do not use this to translate to origin unless you intend to rotate around THIS point.
-    def translate(self, lst):
-        old = Point.copy(self)
-        self.x += lst[0]
-        self.y += lst[1]
-        if __name__ == "__main__":
-            print('{0} -> {1} :: (Translate[{2},{3}])'.format(old, self, lst[0], lst[1]))
-
-    def rotate(self, theta):
-        rad = math.radians(theta)
-        s = math.sin(rad)
-        c = math.cos(rad)
-        x = self.x
-        y = self.y
-        self.x = x * c - y * s
-        self.y = x * s + y * c
-        if __name__ == "__main__":
-            print('{0} -> {1} :: (Rotate {2})'.format(Point(x, y), self, theta))
-
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def __repr__(self):
-        return "<Point( x:{0:7.2f}, y:{1:7.2f})>".format(self.x, self.y)
-
-    def __str__(self):
-        return "({0:7.2f}, {1:7.2f})".format(self.x, self.y)
+from python3storage.Classes.Point import Point
 
 
 class Parabola:
@@ -74,8 +21,8 @@ class Parabola:
     # Straight lines require 2 points,
     # Anything in a plane requires at least 3.
     def __init__(self, p1, p2, p3, steps):
-
-        if (p1[0] == p2[0] or p2[0] == p3[0] or p1[0] == p3[0]):
+        Point.fromtuple((1, 0))
+        if p1[0] == p2[0] or p2[0] == p3[0] or p1[0] == p3[0]:
             raise ValueError("Parabola expects all points to have differing x-values!")
         pt_array = [Point.fromtuple(p1), Point.fromtuple(p2), Point.fromtuple(p3)]
         pt_array.sort(key=lambda point: point.x)
@@ -169,3 +116,4 @@ if __name__ == "__main__":
     Pxy.rotate(45)
     Pxy.rotate(180)
     Pxy.rotate(-90)
+    
