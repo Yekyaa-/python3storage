@@ -220,7 +220,7 @@ def drawParabolaData(screen, parabola):
     if posStatic:
         # If you want it stationary about the axes "origin", just make sure
         # it's not the same as the "last point" assigned
-        #if parabola.known_points[0].as_tuple() != mP3:
+        #if parabola.known_points[0].astuple() != mP3:
         baseDrawPoint = (mP1[0]+75,mP1[1]+100)
         #else:
          #   baseDrawPoint = (parabola.known_points[1].x+75,parabola.known_points[1].y+100)
