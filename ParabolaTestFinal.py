@@ -147,7 +147,7 @@ class ParabolaTest:
                 elif event.key == K_f:
                     self.toggleFPS()
                 #elif event.key == K_e:
-                #    self.nextErrorMode()
+                #    self.next_error_mode()
                 elif event.key == K_s:
                     self.showSteps = not self.showSteps
                 elif event.key == K_c:
@@ -189,7 +189,7 @@ class ParabolaTest:
                     self.increaseStepAmount()
                 elif self.isMouseWheelDown(event.button):
                     self.decreaseStepAmount()
-                    #self.decreaseTickAmount()
+                    #self.decrease_tick_amount()
                 elif self.isMMB(event.button):
                     self.toggleGrid()
                 else:
@@ -382,7 +382,7 @@ class ParabolaTest:
     def drawMousePositionData(self):
         baseDrawPoint = (self.mouse_position[0]+self.staticOffsetX,self.mouse_position[1]+self.staticOffsetY)
         myfontS = pygame.font.SysFont('monospace', self.infoFontSize)
-        Print1 = '{0}'.format(Point.fromtuple(self.mouse_position))
+        Print1 = '{0}'.format(Point.from_(self.mouse_position))
         ts1 = myfontS.render(Print1, False, self.mousePositionTextColor, self.mousePositionBackColor)
         self.screen.blit(ts1,baseDrawPoint)
         return
@@ -390,7 +390,7 @@ class ParabolaTest:
     def drawPositionData(self, point):
         baseDrawPoint = (point[0]+self.staticOffsetX,point[1]+self.staticOffsetY)
         myfontS = pygame.font.SysFont('monospace', self.infoFontSize)
-        Print1 = '{0}'.format(Point.fromtuple(point))
+        Print1 = '{0}'.format(Point.from_(point))
         ts1 = myfontS.render(Print1, False, self.mousePositionTextColor, self.mousePositionBackColor)
         self.screen.blit(ts1,baseDrawPoint)
         return
@@ -399,12 +399,12 @@ class ParabolaTest:
             return
         p = self.parabola
         if (self.parabolaCounter > 1):
-            p2 = Parabola(p.known_points[0].astuple(), (p.known_points[1].x, p.known_points[1].y - 75), p.known_points[2].astuple(), p.steps)
+            p2 = Parabola(p.known_points[0].as_tuple(), (p.known_points[1].x, p.known_points[1].y - 75), p.known_points[2].as_tuple(), p.steps)
             rect = pygame.draw.lines(self.screen, self.parabolaColor, False, p2.get_list(), 1)
             if self.drawBoundingBox:
                 pygame.draw.rect(self.screen, Colors.RED, rect, 1)
         if (self.parabolaCounter > 2):
-            p2 = Parabola(p.known_points[0].astuple(), (p.known_points[1].x, p.known_points[1].y + 75), p.known_points[2].astuple(), p.steps)
+            p2 = Parabola(p.known_points[0].as_tuple(), (p.known_points[1].x, p.known_points[1].y + 75), p.known_points[2].as_tuple(), p.steps)
             rect = pygame.draw.lines(self.screen, self.parabolaColor, False, p2.get_list(), 1)
             if self.drawBoundingBox:
                 pygame.draw.rect(self.screen, Colors.RED, rect, 1)
@@ -489,9 +489,9 @@ class ParabolaTest:
         ts1 = myfontS.render(Print1, False, self.errorTextColor)
 
         startx, starty, box_start_x, box_start_y, box_width, box_height = self.getValueFromBits(self.errorDisplayMode, ts1)
-        if self.showSteps:
-            box_start_y += ts1.get_height()
-            starty += ts1.get_height()
+        #if self.showSteps:
+        #   box_start_y += ts1.get_height()
+        #   starty += ts1.get_height()
         pygame.draw.rect(self.screen, self.errorBackColor, (box_start_x, box_start_y, box_width, box_height))
         self.screen.blit(ts1,(startx, starty))
         return
@@ -518,3 +518,4 @@ class ParabolaTest:
 if __name__ == "__main__":
     pMain = ParabolaTest()
     pMain.run()
+    print(dir())
